@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./Home.css";
 import Navbar from "../../components/Navbar/Navbar";
 import hero_banner from "../../assets/hero_banner.jpg";
@@ -34,14 +34,14 @@ const Home = () => {
         </div>
       </div>
       <div className="more-cards">
-        <TitleCards title='Blockbuster Movies' category={'top_rated'} />
-        <TitleCards title='Only on Netflix' category={'popular'}/>
-        <TitleCards title='Upcoming' category={'upcoming'} />
-        <TitleCards title='Top Picks for you' category={'now_playing'}/>
+        <TitleCards title="Blockbuster Movies" category={"top_rated"} />
+        <TitleCards title="Only on Netflix" category={"popular"} />
+        <TitleCards title="Upcoming" category={"upcoming"} />
+        <TitleCards title="Top Picks for you" category={"now_playing"} />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export default memo(Home);

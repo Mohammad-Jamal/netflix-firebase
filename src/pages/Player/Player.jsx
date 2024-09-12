@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Player.css";
 import back_arrow_icon from "../../assets/back_arrow_icon.png";
 import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
 const Player = () => {
-  const {id} = useParams();
-  console.log(id);
-  const [apiData,setApiData] = useState({
-    name:'',
-    key: '',
-    type:'',
-    published_at: ''
-  })
+  const { id } = useParams();
+  const API = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+
   const options = {
     method: "GET",
     headers: {
@@ -20,34 +17,41 @@ const Player = () => {
     },
   };
 
-  useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => setApiData(response.results[0]))
-      .catch((err) => console.error(err));
-  }, []);
+  const fetchMoviePlayer = async () => {
+    const res = await fetch(API, options);
+    const data = await res.json();
+    return data.results[0];
+  };
+
+  const { data, isError, isLoading, isPending, error } = useQuery({
+    queryKey: ["moviePlayers"],
+    queryFn: fetchMoviePlayer,
+  });
+
   return (
     <div className="player">
-      <Link to='/'>
-      <img src={back_arrow_icon} alt="" />
+      <Link to="/">
+        <img src={back_arrow_icon} alt="" />
       </Link>
-
-      <iframe
-        width="90%"
-        height="90%"
-        src={`https://www.youtube.com/embed/${apiData.key}`}
-        title="trailer"
-        frameBorder="0"
-        allowFullScreen
-      ></iframe>
-      <div className="player-info">
-        <p>{apiData.published_at.slice(0,10)}</p>
-        <p>{apiData.name}</p>
-        <p>{apiData.type}</p>
-      </div>
+      {isLoading && isPending && <p>Loading...</p>}
+      {isError && <p>{error?.message}</p>}
+      {data && (
+        <>
+          <iframe
+            width="90%"
+            height="90%"
+            src={`https://www.youtube.com/embed/${data.key}`}
+            title="trailer"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+          <div className="player-info">
+            <p>{data.published_at.slice(0, 10)}</p>
+            <p>{data.name}</p>
+            <p>{data.type}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

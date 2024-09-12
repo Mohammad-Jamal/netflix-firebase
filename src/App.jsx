@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import Home from './pages/Home/Home'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Login from './pages/Login/Login'
@@ -15,10 +15,10 @@ const App = () => {
   useEffect(() => {
     onAuthStateChanged(auth, async(user) => {
       if (user) {
-        console.log('Logged In');
+        // console.log('Logged In');
         navigate('/');
       }else {
-        console.log('Logged Out');
+        // console.log('Logged Out');
         navigate('/login')
       }
     })
@@ -35,4 +35,4 @@ const App = () => {
   )
 }
 
-export default App
+export default memo(App)

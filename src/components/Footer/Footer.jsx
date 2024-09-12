@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import './Footer.css'
 import youtube_icon from '../../assets/youtube_icon.png'
 import twitter_icon from '../../assets/twitter_icon.png'
@@ -32,4 +32,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default memo(Footer)

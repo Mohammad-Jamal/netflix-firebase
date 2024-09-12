@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import './Navbar.css'
 import logo from '../../assets/logo.png'
 import search_icon from '../../assets/search_icon.svg'
@@ -14,9 +14,9 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener('scroll',() => {
       if (window.scrollY >= 80) {
-        navRef.current.classList.add('nav-dark');
+        navRef.current.classList?.add('nav-dark');
       } else {
-        navRef.current.classList.remove('nav-dark');
+        navRef.current.classList?.remove('nav-dark');
       }
     })
   },[])
@@ -50,4 +50,4 @@ const Navbar = () => {
   )
 }
  
-export default Navbar
+export default memo(Navbar)
